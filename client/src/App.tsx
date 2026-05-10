@@ -263,7 +263,7 @@ export default function App() {
           )}
         </AnimatePresence>
 
-        <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <main className="flex min-w-0 flex-1 flex-col overflow-y-auto overflow-x-hidden bg-[#050816]">
           <header className="flex h-14 items-center justify-between border-b border-[rgba(255,255,255,0.08)] glass px-3 sm:px-6">
             <div className="flex items-center gap-2 sm:gap-3">
               {activeView === 'settings' ? (
