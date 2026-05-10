@@ -239,13 +239,22 @@ export default function App() {
                 }}
                 onDelete={(id) => deleteChat(id).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
                 onPin={(chat) => updateChat(chat._id, { pinned: !chat.pinned }).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
+                onClose={() => setSidebarOpen(false)}
               />
             </motion.div>
           )}
         </AnimatePresence>
         <main className="flex min-w-0 flex-1 flex-col">
-          <header className="flex h-[60px] items-center justify-between border-b border-[rgba(255,255,255,0.08)] glass px-6">
+          <header className="flex h-[60px] items-center justify-between border-b border-[rgba(255,255,255,0.08)] glass px-4 sm:px-6">
             <div className="flex items-center gap-3">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8]"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 12h18M3 6h18M3 18h18"/>
+                </svg>
+              </button>
               {/* Model Selector */}
               <select
                 value={selectedModelId}
@@ -263,12 +272,12 @@ export default function App() {
             {canInstall && (
               <button
                 onClick={install}
-                className="input-glass flex h-9 items-center gap-2 rounded-lg px-3 text-sm font-medium text-[#94A3B8] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white"
+                className="input-glass flex h-9 items-center gap-2 rounded-lg px-3 text-sm font-medium text-[#94A3B8] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white whitespace-nowrap"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                 </svg>
-                Add to Homescreen
+                <span className="hidden sm:inline">Add to Homescreen</span>
               </button>
             )}
           </header>
