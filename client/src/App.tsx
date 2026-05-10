@@ -201,7 +201,8 @@ export default function App() {
     <div className="min-h-screen p-0 text-foreground" style={{ background: 'linear-gradient(145deg, #050816 0%, #0B1020 50%, #0a0f1a 100%)' }}>
       <AmbientBackground />
       <div className="relative flex h-screen w-full overflow-hidden">
-        <div className="hidden lg:block">
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:flex">
           <Sidebar
             chats={chats}
             activeChatId={activeChatId}
@@ -218,48 +219,65 @@ export default function App() {
             onPin={(chat) => updateChat(chat._id, { pinned: !chat.pinned }).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
           />
         </div>
+
+        {/* Mobile Sidebar Overlay */}
         <AnimatePresence>
           {sidebarOpen && (
-            <motion.div initial={{ x: -340 }} animate={{ x: 0 }} exit={{ x: -340 }} className="fixed inset-y-0 left-0 z-40 w-80 lg:hidden">
-              <Sidebar
-                chats={chats}
-                activeChatId={activeChatId}
-                activeView={activeView}
-                search={search}
-                onSearch={setSearch}
-                onNewChat={() => newChatMutation.mutate()}
-                onSelect={(id) => {
-                  setActiveChatId(id);
-                  setActiveView('chat');
-                  setSidebarOpen(false);
-                }}
-                onSettings={() => {
-                  setActiveView('settings');
-                  setSidebarOpen(false);
-                }}
-                onDelete={(id) => deleteChat(id).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
-                onPin={(chat) => updateChat(chat._id, { pinned: !chat.pinned }).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
-                onClose={() => setSidebarOpen(false)}
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-40 bg-black/50 lg:hidden backdrop-blur-sm"
+                onClick={() => setSidebarOpen(false)}
               />
-            </motion.div>
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="fixed inset-y-0 left-0 z-50 w-[280px] lg:hidden"
+              >
+                <Sidebar
+                  chats={chats}
+                  activeChatId={activeChatId}
+                  activeView={activeView}
+                  search={search}
+                  onSearch={setSearch}
+                  onNewChat={() => newChatMutation.mutate()}
+                  onSelect={(id) => {
+                    setActiveChatId(id);
+                    setActiveView('chat');
+                    setSidebarOpen(false);
+                  }}
+                  onSettings={() => {
+                    setActiveView('settings');
+                    setSidebarOpen(false);
+                  }}
+                  onDelete={(id) => deleteChat(id).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
+                  onPin={(chat) => updateChat(chat._id, { pinned: !chat.pinned }).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
+                  onClose={() => setSidebarOpen(false)}
+                />
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
+
         <main className="flex min-w-0 flex-1 flex-col">
-          <header className="flex h-[60px] items-center justify-between border-b border-[rgba(255,255,255,0.08)] glass px-4 sm:px-6">
-            <div className="flex items-center gap-3">
+          <header className="flex h-14 items-center justify-between border-b border-[rgba(255,255,255,0.08)] glass px-3 sm:px-6">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8]"
+                className="lg:hidden p-2 -ml-1 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8] active:scale-95 transition-transform"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 12h18M3 6h18M3 18h18"/>
                 </svg>
               </button>
-              {/* Model Selector */}
               <select
                 value={selectedModelId}
                 onChange={(event) => setSelectedModelId(event.target.value)}
-                className="input-glass h-9 max-w-[58vw] rounded-xl border-[rgba(255,255,255,0.08)] bg-transparent px-3 text-sm font-medium text-white outline-none hover:border-[rgba(255,255,255,0.12)] sm:max-w-xs cursor-pointer"
+                className="input-glass h-9 max-w-[45vw] sm:max-w-[140px] rounded-lg sm:rounded-xl border-[rgba(255,255,255,0.08)] bg-transparent px-2 sm:px-3 text-xs sm:text-sm font-medium text-white outline-none hover:border-[rgba(255,255,255,0.12)] cursor-pointer"
                 title="Select model"
               >
                 {(modelsQuery.data || []).map((model) => (
@@ -272,9 +290,9 @@ export default function App() {
             {canInstall && (
               <button
                 onClick={install}
-                className="input-glass flex h-9 items-center gap-2 rounded-lg px-3 text-sm font-medium text-[#94A3B8] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white whitespace-nowrap"
+                className="input-glass flex h-9 items-center gap-1.5 sm:gap-2 rounded-lg px-2 sm:px-3 text-xs sm:text-sm font-medium text-[#94A3B8] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white whitespace-nowrap active:scale-95 transition-transform"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                 </svg>
                 <span className="hidden sm:inline">Add to Homescreen</span>
@@ -314,21 +332,21 @@ export default function App() {
           ) : (
             <>
               <section
-                className="min-h-0 flex-1 overflow-y-auto px-6 pb-4"
+                className="min-h-0 flex-1 overflow-y-auto px-3 sm:px-6 pb-4"
                 onScroll={(event) => {
                   const target = event.currentTarget;
                   shouldStickToBottomRef.current = target.scrollHeight - target.scrollTop - target.clientHeight < 96;
                 }}
               >
-                <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 pt-10">
+                <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 sm:gap-4 pt-6 sm:pt-10">
                   {!messages.length && (
-                    <div className="grid min-h-[50vh] place-items-center text-center">
-                      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl animate-fade-in">
-                        <h2 className="gradient-text text-[52px] font-semibold tracking-tight sm:text-5xl leading-tight">How can I help you today?</h2>
-                        <p className="mt-4 text-[18px] leading-6 text-[#94A3B8]">
+                    <div className="grid min-h-[40vh] sm:min-h-[50vh] place-items-center text-center">
+                      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl animate-fade-in px-4">
+                        <h2 className="gradient-text text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight">How can I help you today?</h2>
+                        <p className="mt-3 sm:mt-4 text-base sm:text-lg text-[#94A3B8]">
                           Cloudnest AI is ready to assist with any task. Start a conversation below.
                         </p>
-                        <div className="mt-12 flex gap-4 text-left flex-wrap justify-center max-w-[900px]">
+                        <div className="mt-8 sm:mt-12 flex gap-3 sm:gap-4 text-left flex-wrap justify-center max-w-[900px]">
                           {[
                             { icon: 'edit', title: 'Write creative content', desc: 'Blog posts, stories, marketing copy' },
                             { icon: 'code', title: 'Debug code', desc: 'Find and fix errors in any language' },
@@ -337,22 +355,22 @@ export default function App() {
                             <button
                               key={item.title}
                               onClick={() => sendMessage(item.title, [])}
-                              className={`card-hover input-glass min-w-[260px] flex items-center gap-4 rounded-2xl p-5 text-left stagger-${index + 1}`}
+                              className={`card-hover input-glass min-w-[240px] sm:min-w-[260px] flex items-center gap-3 sm:gap-4 rounded-xl sm:rounded-2xl p-4 sm:p-5 text-left stagger-${index + 1} active:scale-95 transition-transform`}
                             >
-                              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgba(212,175,55,0.2)]">
+                              <div className="flex h-10 sm:h-11 w-10 sm:w-11 items-center justify-center rounded-xl sm:rounded-2xl bg-[rgba(212,175,55,0.2)]">
                                 {item.icon === 'edit' && (
-                                  <svg className="h-5 w-5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                  <svg className="h-4 w-4 sm:h-5 sm:w-5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                     <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
                                   </svg>
                                 )}
                                 {item.icon === 'code' && (
-                                  <svg className="h-5 w-5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                  <svg className="h-4 w-4 sm:h-5 sm:w-5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                     <polyline points="16 18 22 12 16 6"/>
                                     <polyline points="8 6 2 12 8 18"/>
                                   </svg>
                                 )}
                                 {item.icon === 'help' && (
-                                  <svg className="h-5 w-5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                  <svg className="h-4 w-4 sm:h-5 sm:w-5 text-[#22D3EE]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                     <circle cx="12" cy="12" r="10"/>
                                     <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                                     <line x1="12" y1="17" x2="12.01" y2="17"/>
@@ -360,8 +378,8 @@ export default function App() {
                                 )}
                               </div>
                               <div>
-                                <div className="text-[15px] font-medium text-white">{item.title}</div>
-                                <div className="text-[13px] text-[#64748B]">{item.desc}</div>
+                                <div className="text-sm sm:text-[15px] font-medium text-white">{item.title}</div>
+                                <div className="text-xs sm:text-[13px] text-[#64748B]">{item.desc}</div>
                               </div>
                             </button>
                           ))}
@@ -384,7 +402,7 @@ export default function App() {
                   <div ref={bottomRef} />
                 </div>
               </section>
-              <footer className="mx-auto w-full max-w-4xl px-6 pb-7">
+              <footer className="mx-auto w-full max-w-4xl px-3 sm:px-6 pb-4 sm:pb-7">
                 <Composer
                   model={selectedModel}
                   disabled={messages.at(-1)?.pending}

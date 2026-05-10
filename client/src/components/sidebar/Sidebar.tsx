@@ -29,12 +29,12 @@ export function Sidebar({
   const recentChats = chats.filter(c => !c.pinned);
 
   return (
-    <aside className="flex h-full w-full flex-col glass p-4 lg:w-[280px]">
+    <aside className="relative flex h-full w-full flex-col glass p-4 lg:p-4 lg:w-[280px]">
       {/* Close Button (Mobile) */}
       {onClose && (
         <button
           onClick={onClose}
-          className="lg:hidden absolute top-4 right-4 p-2 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8]"
+          className="lg:hidden absolute top-4 right-4 p-2 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8] active:scale-90 transition-transform z-10"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M18 6L6 18M6 6l12 12"/>
@@ -45,7 +45,7 @@ export function Sidebar({
       {/* New Chat Button */}
       <button
         onClick={onNewChat}
-        className="btn-gradient mb-5 flex h-12 items-center justify-center rounded-2xl text-[15px]"
+        className="btn-gradient mb-4 lg:mb-5 flex h-11 lg:h-12 items-center justify-center rounded-xl lg:rounded-2xl text-sm lg:text-[15px] active:scale-95 transition-transform"
       >
         New Chat
       </button>
@@ -145,7 +145,7 @@ function ChatItem({
   return (
     <div
       onClick={() => onSelect(chat._id)}
-      className={`group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-150 cursor-pointer ${
+      className={`group relative flex items-center gap-3 rounded-xl p-3 transition-all duration-150 cursor-pointer active:bg-[rgba(255,255,255,0.05)] ${
         isActive
           ? 'bg-gradient-to-r from-[rgba(212,175,55,0.15)] to-transparent border-l-[3px] border-[#D4AF37]'
           : 'hover:bg-[rgba(255,255,255,0.03)]'
