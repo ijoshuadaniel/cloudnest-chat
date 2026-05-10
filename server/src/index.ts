@@ -11,33 +11,10 @@ import { seedDefaultModels } from "./services/modelRegistry.js";
 const app = express();
 app.set("trust proxy", 1);
 
-const allowedOrigins = new Set(
-  [
-    env.CLIENT_ORIGIN,
-    env.CLIENT_ORIGINS,
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:4173",
-    "http://127.0.0.1:4173",
-  ]
-    .flatMap((origin) => origin?.split(",") ?? [])
-    .map((origin) => origin.trim())
-    .filter(Boolean),
-);
-
 app.use(helmet());
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin)) {
-        callback(null, true);
-        return;
-      }
-
-      callback(new Error(`Origin ${origin} is not allowed by CORS`));
-    },
+    origin: true,
     credentials: true,
   }),
 );
