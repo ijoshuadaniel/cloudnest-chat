@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:4000/api/models)",
+      "Bash(brew list *)",
+      "Bash(mkdir -p /Users/josh/data/db)",
+      "Bash(mongod --dbpath /Users/josh/data/db --logpath /tmp/mongod.log --fork)",
+      "Bash(mongod --dbpath /Users/josh/data/db --logpath /tmp/mongod.log)",
+      "Bash(curl -s http://localhost:4000/api/health)",
+      "Bash(curl -s -X POST http://localhost:4000/api/nim/stream -H 'Content-Type: application/json' -d '{\"chatId\":\"test\",\"modelId\":\"deepseek-ai/deepseek-v4-pro\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}')",
+      "Bash(curl -s -X POST http://localhost:4000/api/nim/stream -H 'Content-Type: application/json' -d '{\"chatId\":\"test\",\"modelId\":\"meta/llama-3.1-8b-instruct\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}')",
+      "Bash(curl -s -X POST http://localhost:4000/api/nim/stream -H 'Content-Type: application/json' -d '{\"chatId\":\"test2\",\"modelId\":\"meta/llama-3.1-8b-instruct\",\"messages\":[{\"role\":\"user\",\"content\":\"Hi\"}]}' --max-time 20)",
+      "Bash(curl *)",
+      "Bash(node -e ' *)",
+      "Bash(node *)",
+      "Bash(python3 -c \"import sys,json; models=[m for m in json.load\\(sys.stdin\\)['models'] if m['endpointType']=='chat']; print\\(json.dumps\\(models, indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; models=[m for m in json.load\\(sys.stdin\\)['models'] if m['endpointType']=='chat']; print\\(json.dumps\\([{'modelId':m['modelId'],'label':m['label']} for m in models], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; models=[m['id'] for m in json.load\\(sys.stdin\\)['data'] if 'image' in m['id'].lower\\(\\) or 'sd' in m['id'].lower\\(\\) or 'flux' in m['id'].lower\\(\\)]; print\\('\\\\n'.join\\(models[:20]\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; models=[m for m in json.load\\(sys.stdin\\)['models']]; print\\(json.dumps\\([{'modelId':m['modelId'],'label':m['label'],'type':m['endpointType']} for m in models], indent=2\\)\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -c \"import sys,json; models=[m['label'] for m in json.load\\(sys.stdin\\)['models'] if 'gemma' in m['modelId'].lower\\(\\)]; print\\('\\\\n'.join\\(models\\)\\)\")",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Cloudnest",
+  "short_name": "Cloudnest",
+  "description": "AI Assistant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050816",
+  "theme_color": "#050816",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
