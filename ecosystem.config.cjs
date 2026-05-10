@@ -1,3 +1,5 @@
+require("dotenv").config({ path: "./server/.env" });
+
 module.exports = {
   apps: [
     {
