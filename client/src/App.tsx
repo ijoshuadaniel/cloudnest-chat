@@ -215,7 +215,13 @@ export default function App() {
               setActiveView('chat');
             }}
             onSettings={() => setActiveView('settings')}
-            onDelete={(id) => deleteChat(id).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
+            onDelete={(id) => {
+              deleteChat(id).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }));
+              if (id === activeChatId) {
+                setActiveChatId(undefined);
+                setMessages([]);
+              }
+            }}
             onPin={(chat) => updateChat(chat._id, { pinned: !chat.pinned }).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
           />
         </div>
@@ -254,7 +260,14 @@ export default function App() {
                     setActiveView('settings');
                     setSidebarOpen(false);
                   }}
-                  onDelete={(id) => deleteChat(id).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
+                  onDelete={(id) => {
+                    deleteChat(id).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }));
+                    if (id === activeChatId) {
+                      setActiveChatId(undefined);
+                      setMessages([]);
+                      setSidebarOpen(false);
+                    }
+                  }}
                   onPin={(chat) => updateChat(chat._id, { pinned: !chat.pinned }).then(() => queryClient.invalidateQueries({ queryKey: ['chats'] }))}
                   onClose={() => setSidebarOpen(false)}
                 />
