@@ -287,17 +287,20 @@ export default function App() {
                 ))}
               </select>
             </div>
-            {canInstall && (
-              <button
-                onClick={install}
-                className="input-glass flex h-9 items-center gap-1.5 sm:gap-2 rounded-lg px-2 sm:px-3 text-xs sm:text-sm font-medium text-[#94A3B8] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white whitespace-nowrap active:scale-95 transition-transform"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                </svg>
-                <span className="hidden sm:inline">Add to Homescreen</span>
-              </button>
-            )}
+            <button
+              onClick={install}
+              disabled={!canInstall}
+              className={`input-glass flex h-9 items-center gap-1.5 sm:gap-2 rounded-lg px-2 sm:px-3 text-xs sm:text-sm font-medium active:scale-95 transition-transform ${
+                canInstall
+                  ? 'text-[#94A3B8] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white'
+                  : 'text-[#64748B] opacity-50 cursor-not-allowed'
+              }`}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              <span className="hidden sm:inline">Add to Homescreen</span>
+            </button>
           </header>
           {activeView === 'settings' ? (
             <section className="min-h-0 flex-1 overflow-y-auto">
