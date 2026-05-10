@@ -13,7 +13,7 @@
     "typecheck": "npm run typecheck --workspace client && npm run typecheck --workspace server",
     "pm2:start": "npm run build && pm2 start ecosystem.config.cjs",
     "pm2:restart": "npm run build && pm2 restart ecosystem.config.cjs",
-    "pm2:stop": "pm2 stop ecosystem.config.cjs",
+    "pm2:stop": "pm2 stop ecosystem.config.cjs && pm2 delete nim-chat-web nim-chat-api",
     "pm2:logs": "pm2 logs"
   },
   "devDependencies": {
