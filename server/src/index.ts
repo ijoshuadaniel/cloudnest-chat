@@ -9,6 +9,8 @@ import { router } from "./routes/index.js";
 import { seedDefaultModels } from "./services/modelRegistry.js";
 
 const app = express();
+app.set("trust proxy", 1);
+
 const allowedOrigins = new Set(
   [
     env.CLIENT_ORIGIN,
