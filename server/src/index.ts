@@ -28,4 +28,5 @@ await seedDefaultModels();
 
 app.listen(env.PORT, () => {
   console.log(`NIM chat API listening on ${env.PORT}`);
+  console.log(process.env);
 });
