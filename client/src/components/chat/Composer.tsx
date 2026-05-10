@@ -82,7 +82,7 @@ export function Composer({
 
   return (
     <form
-      className="input-glass rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-200 focus-within:border-[#D4AF37] focus-within:shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_3px_rgba(212,175,55,0.15)]"
+      className="input-glass rounded-2xl sm:rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-all duration-200 focus-within:border-[#D4AF37] focus-within:shadow-[0_4px_24px_rgba(0,0,0,0.4),0_0_0_3px_rgba(212,175,55,0.15)]"
       onDragOver={(event) => event.preventDefault()}
       onDrop={(event) => {
         event.preventDefault();
@@ -99,7 +99,7 @@ export function Composer({
     >
       {/* Editing Indicator */}
       {initialContent && (
-        <div className="mx-4 mt-3 mb-1 flex items-center justify-between rounded-lg bg-[rgba(255,255,255,0.05)] px-3 py-2 text-xs text-[#94A3B8]">
+        <div className="mx-3 sm:mx-4 mt-2 sm:mt-3 mb-1 flex items-center justify-between rounded-lg bg-[rgba(255,255,255,0.05)] px-3 py-2 text-xs text-[#94A3B8]">
           <span>Editing message</span>
           <button
             type="button"
@@ -113,7 +113,7 @@ export function Composer({
 
       {/* Attachments */}
       {!!attachments.length && (
-        <div className="mb-2 flex gap-2 overflow-x-auto px-4 pt-2">
+        <div className="mb-2 flex gap-2 overflow-x-auto px-3 sm:px-4 pt-2">
           {attachments.map((attachment) => (
             <div key={attachment.name} className="relative min-w-36 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-2 text-xs">
               <button
@@ -134,7 +134,7 @@ export function Composer({
       )}
 
       {/* Input Area */}
-      <div className="flex items-end gap-3 px-4 py-3">
+      <div className="flex items-end gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3">
         <div className="flex gap-1">
           <input
             ref={fileRef}
@@ -148,21 +148,21 @@ export function Composer({
             title="Attach files"
             disabled={!supportsFiles}
             onClick={() => fileRef.current?.click()}
-            className="input-glass flex h-9 w-9 items-center justify-center rounded-xl text-[#64748B] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white disabled:opacity-40"
+            className="input-glass flex h-8 sm:h-9 w-8 sm:w-9 items-center justify-center rounded-lg sm:rounded-xl text-[#64748B] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white disabled:opacity-40"
           >
-            <Paperclip size={20} />
+            <Paperclip className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
           <button
             type="button"
             title={listening ? 'Stop voice input' : 'Voice input'}
             onClick={listening ? stopVoice : startVoice}
-            className={`input-glass flex h-9 w-9 items-center justify-center rounded-xl transition-all ${
+            className={`input-glass flex h-8 sm:h-9 w-8 sm:w-9 items-center justify-center rounded-lg sm:rounded-xl transition-all ${
               listening
                 ? 'bg-[rgba(239,68,68,0.1)] text-[#EF4444] border-[rgba(239,68,68,0.3)]'
                 : 'text-[#64748B] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white'
             }`}
           >
-            {listening ? <Square size={20} /> : <Mic size={20} />}
+            {listening ? <Square className="w-4 h-4 sm:w-5 sm:h-5" /> : <Mic className="w-4 h-4 sm:w-5 sm:h-5" />}
           </button>
         </div>
 
@@ -177,21 +177,21 @@ export function Composer({
               event.currentTarget.form?.requestSubmit();
             }
           }}
-          placeholder="Message Nexus..."
-          className="min-h-[40px] flex-1 resize-none overflow-y-auto border-none bg-transparent py-2 text-[15px] leading-6 text-white outline-none placeholder:text-[#64748B]"
+          placeholder="Message..."
+          className="min-h-[36px] sm:min-h-[40px] flex-1 resize-none overflow-y-auto border-none bg-transparent py-1.5 sm:py-2 text-sm sm:text-[15px] leading-5 sm:leading-6 text-white outline-none placeholder:text-[#64748B]"
         />
 
         <button
           type="submit"
           disabled={disabled || (!content.trim() && !attachments.length)}
-          className="btn-gradient flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-gradient flex h-9 sm:h-10 w-9 sm:w-10 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-transform"
         >
-          <SendHorizontal size={18} />
+          <SendHorizontal className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
         </button>
       </div>
 
-      {/* Input Footer */}
-      <div className="pb-3 text-center">
+      {/* Input Footer - Hidden on mobile */}
+      <div className="hidden sm:block pb-3 text-center">
         <span className="text-[12px] text-[#64748B]">
           Press <kbd className="mx-1 rounded bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.08)] px-1.5 py-0.5 text-[11px]">Enter</kbd> to send,
           <kbd className="mx-1 rounded bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.08)] px-1.5 py-0.5 text-[11px]">Shift + Enter</kbd> for new line

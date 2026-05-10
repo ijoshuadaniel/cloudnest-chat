@@ -263,7 +263,7 @@ export default function App() {
           )}
         </AnimatePresence>
 
-        <main className="flex min-w-0 flex-1 flex-col">
+        <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <header className="flex h-14 items-center justify-between border-b border-[rgba(255,255,255,0.08)] glass px-3 sm:px-6">
             <div className="flex items-center gap-2 sm:gap-3">
               <button
@@ -332,13 +332,13 @@ export default function App() {
           ) : (
             <>
               <section
-                className="min-h-0 flex-1 overflow-y-auto px-3 sm:px-6 pb-4"
+                className="min-h-0 flex-1 overflow-y-auto px-2 sm:px-6 pb-2 sm:pb-4"
                 onScroll={(event) => {
                   const target = event.currentTarget;
                   shouldStickToBottomRef.current = target.scrollHeight - target.scrollTop - target.clientHeight < 96;
                 }}
               >
-                <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 sm:gap-4 pt-6 sm:pt-10">
+                <div className="mx-auto flex w-full max-w-4xl flex-col gap-2 sm:gap-4 pt-4 sm:pt-10">
                   {!messages.length && (
                     <div className="grid min-h-[40vh] sm:min-h-[50vh] place-items-center text-center">
                       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl animate-fade-in px-4">
@@ -402,7 +402,7 @@ export default function App() {
                   <div ref={bottomRef} />
                 </div>
               </section>
-              <footer className="mx-auto w-full max-w-4xl px-3 sm:px-6 pb-4 sm:pb-7">
+              <footer className="mx-auto w-full max-w-4xl px-2 sm:px-6 pb-3 sm:pb-7 pt-2 sm:pt-0 shrink-0">
                 <Composer
                   model={selectedModel}
                   disabled={messages.at(-1)?.pending}
