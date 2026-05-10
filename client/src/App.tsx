@@ -266,27 +266,56 @@ export default function App() {
         <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <header className="flex h-14 items-center justify-between border-b border-[rgba(255,255,255,0.08)] glass px-3 sm:px-6">
             <div className="flex items-center gap-2 sm:gap-3">
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 -ml-1 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8] active:scale-95 transition-transform"
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 12h18M3 6h18M3 18h18"/>
-                </svg>
-              </button>
-              <select
-                value={selectedModelId}
-                onChange={(event) => setSelectedModelId(event.target.value)}
-                className="input-glass h-9 max-w-[45vw] sm:max-w-[140px] rounded-lg sm:rounded-xl border-[rgba(255,255,255,0.08)] bg-transparent px-2 sm:px-3 text-xs sm:text-sm font-medium text-white outline-none hover:border-[rgba(255,255,255,0.12)] cursor-pointer"
-                title="Select model"
-              >
-                {(modelsQuery.data || []).map((model) => (
-                  <option key={model.modelId} value={model.modelId} className="bg-[#0B1020]">
-                    {model.label}
-                  </option>
-                ))}
-              </select>
+              {activeView === 'settings' ? (
+                <button
+                  onClick={() => setActiveView('chat')}
+                  className="lg:hidden p-2 -ml-1 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8] active:scale-95 transition-transform"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+              ) : (
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="lg:hidden p-2 -ml-1 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-[#94A3B8] active:scale-95 transition-transform"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 12h18M3 6h18M3 18h18"/>
+                  </svg>
+                </button>
+              )}
+              {activeView === 'chat' && (
+                <select
+                  value={selectedModelId}
+                  onChange={(event) => setSelectedModelId(event.target.value)}
+                  className="input-glass h-9 max-w-[45vw] sm:max-w-[140px] rounded-lg sm:rounded-xl border-[rgba(255,255,255,0.08)] bg-transparent px-2 sm:px-3 text-xs sm:text-sm font-medium text-white outline-none hover:border-[rgba(255,255,255,0.12)] cursor-pointer"
+                  title="Select model"
+                >
+                  {(modelsQuery.data || []).map((model) => (
+                    <option key={model.modelId} value={model.modelId} className="bg-[#0B1020]">
+                      {model.label}
+                    </option>
+                  ))}
+                </select>
+              )}
+              {activeView === 'settings' && (
+                <span className="text-sm font-medium text-white">Settings</span>
+              )}
             </div>
+            <div className="flex items-center gap-2">
+              {activeView === 'chat' && (
+                <button
+                  onClick={() => setActiveView('settings')}
+                  className="hidden lg:flex input-glass h-9 items-center gap-2 rounded-lg px-3 text-sm font-medium text-[#94A3B8] hover:bg-[rgba(212,175,55,0.1)] hover:border-[#D4AF37] hover:text-white"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                  </svg>
+                  Settings
+                </button>
+              )}
             <button
               onClick={install}
               disabled={!canInstall}
@@ -301,6 +330,7 @@ export default function App() {
               </svg>
               <span className="hidden sm:inline">Add to Homescreen</span>
             </button>
+            </div>
           </header>
           {activeView === 'settings' ? (
             <section className="min-h-0 flex-1 overflow-y-auto">
